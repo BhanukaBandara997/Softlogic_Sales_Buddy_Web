@@ -1,0 +1,35 @@
+server:
+  port: 9010
+spring:
+  thymeleaf:
+    cache: false
+    check-template: true
+    check-template-location: true
+    enabled: true
+    encoding: UTF-8
+    mode: HTML
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/softlogic_sales_buddy?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
+    tomcat:
+    test-while-idle: true
+    validation-query: SELECT 1
+    initialization-mode: never
+    platform: mysql
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+
+  hibernate:
+    naming:
+      physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+
+
+

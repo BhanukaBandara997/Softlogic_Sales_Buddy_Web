@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Home</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- JS, Popper.js, and jQuery -->
+    <script type="text/javascript" th:src="@{/vendor/jquery/jquery-3.5.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/animsition/js/animsition.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/bootstrap/js/popper.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/select2/select2.min.js}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+            integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.js"></script>
+    <!--===============================================================================================-->
+
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/datatables.min.css"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/animate/animate.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/vendor/select2/select2.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/user.css}"/>
+    <!--===============================================================================================-->
+
+</head>
+
+<body class="home-body">
+
+<div class="se-pre-con"></div>
+
+<div id="deleteUserModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE5CD;</i>
+                </div>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete these records? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="deleteUserBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="deleteSalesRepModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE5CD;</i>
+                </div>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete these records? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="deleteSalesRepBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="bulkDeleteSalesRepModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE5CD;</i>
+                </div>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete these records? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="bulkDeleteSalesRepBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="deleteFlyerModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="material-icons">&#xE5CD;</i>
+                </div>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete these records? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="deleteFlyerBtn">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert alert-danger" style="display: none" id="userPermissionsNotGranted">
+    <strong>Error!</strong> Permissions Not Granted.
+</div>
+
+<div class="alert alert-success" style="display: none" id="productCreatedSuccess">
+    <strong>Success!</strong> Product Created Success.
+</div>
+
+<div class="alert alert-success" style="display: none" id="promotionItemAdded">
+    <strong>Success!</strong> Promotion Item Added Success.
+</div>
+
+<div class="alert alert-success" style="display: none" id="userCreatedSuccess">
+    <strong>Success!</strong> User Created Success.
+</div>
+
+<div class="alert alert-success" style="display: none" id="salesPersonCreatedSuccess">
+    <strong>Success!</strong> Sales Person Created Success.
+</div>
+
+<div class="alert alert-success" style="display: none" id="userEditedSuccess">
+    <strong>Success!</strong> User Edited Success.
+</div>
+
+<div class="alert alert-success" style="display: none" id="salesPersonEditedSuccess">
+    <strong>Success!</strong> Sales Person Edited Success.
+</div>
+
+<div class="alert alert-danger" style="display: none" id="promotionEmptyFieldError">
+    <strong>Error!</strong> Enter Relevant Promotion Details.
+</div>
+
+<div class="alert alert-danger" style="display: none" id="promotionItemAddingError">
+    <strong>Error!</strong> Error While Adding Promotion Item.
+</div>
+
+<div class="alert alert-danger" style="display: none" id="promotionItemExistsError">
+    <strong>Error!</strong> Promotion Item Already Existing.
+</div>
+
+<div class="alert alert-danger" style="display: none" id="productAddingError">
+    <strong>Error!</strong> Error While Adding Product.
+</div>
+
+<div class="alert alert-danger" style="display: none" id="userEditedError">
+    <strong>Error!</strong> Error While User Editing.
+</div>
+
+<div class="alert alert-danger" style="display: none" id="salesPersonEditedError">
+    <strong>Error!</strong> Error While Sales Person Editing.
+</div>
+
+<div class="alert alert-danger" style="display: none" id="userCreatedError">
+    <strong>Error!</strong> Error While User Creating.
+</div>
+
+<div class="alert alert-danger" style="display: none" id="salesPersonCreatedError">
+    <strong>Error!</strong> Error While Sales Person Creating.
+</div>
+
+<div class="alert alert-danger" id="invalidEmail"
+     style="display: none">
+    <strong>Warning!</strong> Invalid Email and Password
+</div>
+
+<div class="alert alert-danger" id="passwordMismatch"
+     style="display: none">
+    <strong>Warning!</strong> Password Doesn't Match
+</div>
+
+<div class="alert alert-danger" id="roleNotSelected"
+     style="display: none">
+    <strong>Warning!</strong> User Role Not Selected
+</div>
+
+<!-- Fixed navbar -->
+<div class="navbar-header" role="navigation">
+    <div class="row justify-content-between">
+        <div class="col-4">
+            <img th:src="@{/images/softlogic_logo.jpg}" class="home-header-logo">
+        </div>
+        <div class="col-4 navbar-logout">
+            <div class="row log-out-header">
+                <a th:href="@{/logout}" id="logOutTxt" class="log-out-txt">Log Out</a>
+                <img id="logOutBtn" th:src="@{/images/logout.png}" class="home-header-logout-logo">
+            </div>
+        </div>
+    </div>
+</div>
+<main role="main" class="tab-view-layout tab-view-border">
+    <ul class="nav nav-tabs tab-bottom-border" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#products" role="tab" aria-controls="home"
+               aria-selected="true">Products</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#user_management" role="tab"
+               aria-controls="profile" aria-selected="false">User Management</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#sales_representative" role="tab"
+               aria-controls="contact" aria-selected="false">Sales Representative</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="products" role="tabpanel" aria-labelledby="products-tab">
+            <div class="product-parent-div">
+                <div class="d-flex flex-wrap">
+                    <div class="card card-body w-40">
+                        <div class="row">
+                            <span class="product-title">Product Category</span>
+                            <select class="js-example-basic-single category-selector" id="productCategorySelector" disabled>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card card-body w-20">
+                        <div class="container">
+                            <a href="#" class="btn btn-primary"id="userAddProduct">
+                                <i class="fa fa-cube align-middle fa-1x product-main-buttons" aria-hidden="true"></i>
+                                <span class="align-middle nav-bar-titles">Add Product</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card card-body w-20">
+                        <div class="container">
+                            <a href="#" class="btn btn-primary" id="userAddPromotion">
+                                <i class="fa fa-tag align-middle fa-1x product-main-buttons" aria-hidden="true"></i>
+                                <span class="align-middle nav-bar-titles">Add Promotion</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card card-body w-20">
+                        <div class="container">
+                            <a href="#" class="btn btn-primary" data-target=".bd-example-modal-xl"
+                               data-toggle="modal">
+                                <span class="align-middle nav-bar-titles">View Promotions</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <table id="productTable" class="table table-striped table-bordered product-table">
+                    <thead>
+                    <tr class="product-table-header">
+                        <th>Product Category</th>
+                        <th>Product Name</th>
+                        <th>Serial No</th>
+                        <th>Specification</th>
+                        <th>Link</th>
+                        <th>Product Image</th>
+                    </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add Product Modal -->
+            <div class="modal fade" id="add-product-modal" tabindex="-1" role="dialog"
+                 aria-labelledby="addProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header modal-header-edited">
+                            <div class="d-flex flex-row">
+                                <h5 class="modal-title modal-title-color" id="addProductModalLabel">Add Product</h5>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <div class="modal-title-divider"></div>
+                            </div>
+                        </div>
+                        <div class="modal-body modal-body-edited">
+                            <div class="d-flex flex-wrap">
+                                <div class="d-flex flex-row product-table">
+                                    <div class="card card-body w-50">
+                                        <form id="fileUploadForm" class="upload-image1 inputWrapper">
+                                            <div class="form-group">
+                                                <input id="productImageUpload" class="fileInput" type="file" name="file"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card card-body w-50">
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                            <span>
+                                                Product Category
+                                            </span>
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                            <input type="text" class="form-control product-input-validate" id="productCategory"
+                                                   placeholder="">
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                            <span>
+                                                Product Name
+                                            </span>
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                            <input type="text" class="form-control product-input-validate" id="productName"
+                                                   placeholder="">
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                            <span>
+                                                Product Serial Number
+                                            </span>
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                            <input type="text" class="form-control product-input-validate" id="productSerialNumber"
+                                                   placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                    <span>
+                                        Product Link
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-row modal-last-row card-body-margin-20">
+
+                                    <input type="text" class="form-control product-input-validate" id="productLink"
+                                           placeholder="">
+                                </div>
+                                <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                    <span>
+                                        Specification
+                                    </span>
+                                </div>
+                                <div class="d-flex flex-row modal-last-row">
+                                    <textarea type="text" class="form-control product-specification-height product-input-validate"
+                                              id="productSpecification" placeholder=""> </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer modal-footer-edited">
+                            <div class="d-flex flex-row-reverse modal-footer-buttons">
+                                <button type="button" class="btn btn-primary-save" id="addProductBtn">Save</button>
+                                <button type="button" class="btn btn-primary-close" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Promotion Modal -->
+            <div class="modal fade" id="add-promotion-modal" tabindex="-1" role="dialog"
+                 aria-labelledby="addPromotionModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header modal-header-edited">
+                            <div class="d-flex flex-row">
+                                <h5 class="modal-title modal-title-color" id="addPromotionModalLabel">Add Promotion</h5>
+                            </div>
+                            <div class="d-flex flex-row">
+                                <div class="modal-title-divider"></div>
+                            </div>
+                        </div>
+                        <div class="modal-body modal-body-edited">
+                            <div class="d-flex flex-wrap">
+                                <div class="d-flex flex-row product-table">
+                                    <div class="card card-body w-40 promotion-card-body">
+                                        <form id="promotionFileUploadForm" class="inputWrapper upload-image2">
+                                            <div class="form-group">
+                                                <input id="uploadPromotionImage" class="fileInput" type="file" name="file"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="card card-body w-60">
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                             <span>
+                                                 Promotion Name
+                                             </span>
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                            <input type="text" class="form-control promotion-filed-validate" id="promotionName"
+                                                   placeholder="">
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                             <span>
+                                                 Promotion Link
+                                             </span>
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                             <textarea type="text" class="form-control promotion-details-height promotion-filed-validate"
+                                                       id="promotionDetailsAndLink"
+                                                       placeholder=""></textarea>
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                            <button type="button" class="btn btn-primary-promotion-save"
+                                                    id="addPromotionBtn">Save
+                                            </button>
+                                        </div>
+                                        <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                            <button type="button" class="btn btn-primary-promotion-close"
+                                                    data-dismiss="modal">Close
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- View Promotions Modal -->
+            <div id="view-promotions-modal" class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog"
+                 aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl" role="document">
+                    <div class="modal-content view-promotion-modal-content">
+                        <div class="modal-body">
+                            <table id="flyerTable" class="table table-striped table-bordered flyer-table-body">
+                                <thead>
+                                <tr class="flyer-header">
+                                    <th class="big-col1">Promotion ID</th>
+                                    <th class="big-col2">Name</th>
+                                    <th class="big-col3">Promotion Details/Link</th>
+                                    <th class="big-col4">Flyer</th>
+                                    <th class="big-col5">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="promotionsTableBody">
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col align-self-end promotion-modal-close">
+                                    <button type="button" class="btn btn-primary-promotion-done"
+                                            id="closePromotionBtn" data-dismiss="modal">Done
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="user_management" role="tabpanel" aria-labelledby="user_management-tab">
+            <div class="user-management-parent-div">
+                <div class="d-flex flex-wrap">
+                    <div class="d-flex flex-row user-management-div">
+                        <div class="card card-body w-60 promotion-card-body">
+                            <table id="userTable" class="table table-striped table-bordered sales-rep-table">
+                                <thead>
+                                <tr class="product-table-header">
+                                    <th>Username</th>
+                                    <th>User ID</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                <tr>
+                                    <td>Tiger Nixon</td>
+                                    <td>UUID1124</td>
+                                    <td>
+                                        <div class="row justify-content-between product-title-row flyer-action">
+                                            <div class="col-2 product-category-titles">
+                                                <i class="fa fa-pencil-square-o"></i>
+                                            </div>
+                                            <div class="col-2">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card card-body w-40">
+                            <div class="d-flex flex-row modal-last-row new-sales-rep-row">
+                                <div class="container">
+                                    <a id="addNewUserBtn" class="btn btn-primary"
+                                       data-toggle="modal">
+                                        <span class="align-middle nav-bar-titles">New User</span>
+                                        <i class="fa fa-user-plus fa-1x card-margin-right-10" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>User Email Address</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                <div class="container">
+                                    <input type="email" class="form-control sales-user-input" id="userEmail"
+                                           placeholder="" disabled>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>User ID</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                <div class="container">
+                                    <input type="text" class="form-control" id="userId" placeholder=""
+                                           disabled>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>Create Password</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                <div class="container">
+                                    <input type="password" class="form-control sales-user-input" id="createPassword"
+                                           placeholder="" disabled>
+                                    <div id="password-strength-status" style="display: none;"></div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>Confirm Password</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                <div class="container">
+                                    <input type="password" class="form-control sales-user-input" id="confirmPassword"
+                                           placeholder="" disabled>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>Role</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <select class="js-example-basic-single user-role-selector" id="roleSelector" disabled>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row create-user-btn">
+                                <div class="container">
+                                    <button type="button" class="btn btn-primary-create-user" id="createUserAccBtn">Create User Account</button>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <button id="clearUserAccountFormBtn" type="button"
+                                            class="btn btn-primary-user-close">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tab-pane fade" id="sales_representative" role="tabpanel" aria-labelledby="sales_representative-tab">
+            <div class="product-parent-div">
+                <div class="d-flex flex-wrap">
+                    <div class="d-flex flex-row product-table">
+                        <div class="card card-body w-60 promotion-card-body">
+                            <div class="sales-rep-table-body">
+                                <table id="salesRepresentativeTable"
+                                       class="table table-striped table-bordered sales-rep-table">
+                                    <thead>
+                                    <tr class="flyer-header">
+                                        <th>Rank</th>
+                                        <th>SR Name</th>
+                                        <th>SR ID</th>
+                                        <th>Company</th>
+                                        <th>Products Sold</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="salesRepTableBody">
+                                    <tr>
+                                        <td class="td-img">
+                                            <span class="font-weight-600">1</span>
+                                        </td>
+                                        <td>
+                                            <span>Tiger Nixon</span>
+                                        </td>
+                                        <td>
+                                            <span>SR001</span>
+                                        </td>
+                                        <td>
+                                            <span>Dinapala-Colombo</span>
+                                        </td>
+                                        <td>
+                                            <span>250</span>
+                                        </td>
+                                        <td>
+                                            <div class="row sales-rep-row"
+                                            >
+                                                <div class="col">
+                                                    <i class="fa fa-pencil-square-o"></i>
+                                                </div>
+                                                <div class="col">
+                                                    <i class="fa fa-trash"></i>
+                                                </div>
+                                                <div class="col">
+                                                    <input type="checkbox" class="form-check-input">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row sales-rep-bottom-row">
+                                    <div>
+                                        <button id="addIncentivesBtn" type="button" class="btn btn-primary-add-incentives incentive-btn" data-target="#add-incentives-modal" data-toggle="modal">Add Incentives</button>
+                                    </div>
+                                    <div>
+                                        <button id="bulkDeleteSalesRep" type="button" class="btn btn-primary-add-incentives bulk-delete-sales-rep-btn" data-target="#bulkDeleteSalesRepModal" data-toggle="modal">Delete Sales Rep</button>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-body w-40">
+                            <div class="d-flex flex-row modal-last-row new-sales-rep-row">
+                                <div class="container">
+                                    <a id="addSalesRepBtn" class="btn btn-primary"
+                                       data-toggle="modal">
+                                        <span class="align-middle nav-bar-titles">New Sales Representative</span>
+                                        <i class="fa fa-user-plus fa-1x margin-right-10" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>Sales Rep.Email</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                <div class="container">
+                                    <input type="email" class="form-control sales-rep-input" id="salesRepEmail"
+                                           placeholder="" disabled>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>Sales Rep.ID</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                <div class="container">
+                                    <input type="text" class="form-control" id="salesRepId"
+                                           placeholder="" disabled>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>Create Password</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                <div class="container">
+                                    <input type="password" class="form-control sales-rep-input" id="salesRepPassword"
+                                           placeholder="" disabled>
+                                    <div id="sales-person-password-strength-status" style="display: none;"></div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>Confirm Password</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                <div class="container">
+                                    <input type="password" class="form-control sales-rep-input" id="salesRepConfirmPassword"
+                                           placeholder="" disabled>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <span>Company Name</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-10">
+                                <div class="container">
+                                    <input type="text" class="form-control sales-rep-input" id="salesRepCompanyName"
+                                           placeholder="" disabled>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row create-user-btn">
+                                <div class="container">
+                                    <button type="button" class="btn btn-primary-create-user" id="createSalesRep">Create
+                                        Sales Rep
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row modal-last-row card-body-margin-5">
+                                <div class="container">
+                                    <button id="clearSalesRepFormBtn" type="button" class="btn btn-primary-user-close">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Add Incentives Modal-->
+        <div id="add-incentives-modal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content incentive-modal-body">
+                    <div class="modal-body incentive-body">
+                        <table id="incentivesTable" class="table table-striped table-bordered product-table">
+                            <thead>
+                            <tr class="product-table-header">
+                                <th>Sales Rep.ID</th>
+                                <th>Product Sold</th>
+                                <th>Assign Incentives</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="incentiveTableBody">
+                            <tr>
+                                <td>
+                                    <span>SR001</span>
+                                </td>
+                                <td><span>250</span></td>
+                                <td>
+                                    <div class="td-img">
+                                        <i class="fa fa-pencil-square-o"></i>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="td-img">
+                                        <i class="fa fa-trash"></i>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col align-self-end incentive-modal-parent">
+                                <button type="button" class="btn btn-primary-incentives-cancel margin-right-5"
+                                        id="closeIncentivesBtn"
+                                        data-dismiss="modal">Cancel
+                                </button>
+                                <button type="button" class="btn btn-primary-incentives-reports"
+                                        id="openIncentivesBtn" data-dismiss="modal">Reports
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript" th:src="@{/js/user.js}"></script>
+</body>
+</html>
