@@ -1241,7 +1241,8 @@
 
         var userDeleteDiv = $('<div>', {
             'class': 'col-2',
-            'id': userObj.userId + '-delete-user'
+            'id': userObj.userId + '-delete-user',
+            'style': 'margin-right: 10px;'
         }).on('click', function (event) {
             deleteUserId = event.currentTarget.id.split('-')[0];
             $('#deleteUserModal').modal('show');
